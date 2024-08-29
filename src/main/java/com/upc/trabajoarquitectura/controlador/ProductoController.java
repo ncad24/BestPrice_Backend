@@ -23,7 +23,8 @@ public class ProductoController {
     public List<ProductoDTO> listarTodosLosProductos(){
         ModelMapper mapper = new ModelMapper();
         List<Producto> productos = productoService.listarTodosLosProductos();
-        List<ProductoDTO> productoDTO = Arrays.asList(mapper.map(productos, ProductoDTO[].class));
+        List<ProductoDTO> productoDTO = Arrays.asList(mapper.map(productos, ProductoDTO
+                [].class));
         return productoDTO;
     }
     @PostMapping("/producto")
