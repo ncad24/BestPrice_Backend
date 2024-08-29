@@ -18,4 +18,5 @@ public class Marca {
     @Column(name="marca_id")
     private Long marcaID;
     private String nombre;
+
 }

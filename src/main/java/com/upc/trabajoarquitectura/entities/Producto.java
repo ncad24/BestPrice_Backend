@@ -20,5 +20,8 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private double precio;
+    @ManyToOne
+    @JoinColumn(name = "marca_id")
+    private Marca marca;
 
 }
