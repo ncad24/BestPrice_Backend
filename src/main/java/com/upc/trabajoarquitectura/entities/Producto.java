@@ -1,8 +1,26 @@
 package com.upc.trabajoarquitectura.entities;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@Table(name="productos")
 public class Producto {
-    public String nombre;
-    public String descripcion;
-    public int precio;
-    public Producto(String nombre, String descripcion, int precio) {}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="producto_id")
+    private Long productoID;
+    private String nombre;
+    private String descripcion;
+    private double precio;
+    private byte imagen;
+
+
 }
