@@ -21,5 +21,8 @@ public class Usuario {
     private char telefono;
     private String nombreUsuario;
     private String contrasenia;
+    @ManyToOne
+    @JoinColumn (name = "rol_id")
+    private Rol rol;
 
 }
