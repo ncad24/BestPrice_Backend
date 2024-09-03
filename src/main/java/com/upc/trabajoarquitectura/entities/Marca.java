@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="marca_id")
+    @Column(name="marcaID")
     private Long marcaID;
     private String nombre;
 

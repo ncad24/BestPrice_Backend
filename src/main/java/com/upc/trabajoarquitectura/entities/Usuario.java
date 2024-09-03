@@ -10,19 +10,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="usuarios")
+@Table(name="usuario")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usuario_id")
-    private Long idUsuario;
+    @Column(name = "usuarioID")
+    private Long usuarioID;
     private String nombres;
     private String apellidos;
     private char telefono;
     private String nombreUsuario;
     private String contrasenia;
     @ManyToOne
-    @JoinColumn (name = "rol_id")
+    @JoinColumn (name = "rolID")
     private Rol rol;
 
 }

@@ -17,12 +17,12 @@ import java.time.LocalDate;
 public class ProductoxUsuario {
     @Id
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuarioID")
     private Usuario usuario;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "productoID")
     private Producto producto;
 
     private LocalDate fecha;

@@ -18,15 +18,15 @@ import java.util.Set;
 public class Supermercado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="supermercado_id")
-    private Long idSupermercad;
+    @Column(name="supermercadoID")
+    private Long supermercadoID;
     private String nombre;
     private String descripcion;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "supermercado_productos",
-            joinColumns = @JoinColumn(name = "supermercado_id"),
-            inverseJoinColumns = @JoinColumn(name = "productos_id")
+            name = "supermercado_producto",
+            joinColumns = @JoinColumn(name = "supermercadoID"),
+            inverseJoinColumns = @JoinColumn(name = "productoID")
     )
     private Set<Producto> supermercadoProductos = new HashSet<>();
 

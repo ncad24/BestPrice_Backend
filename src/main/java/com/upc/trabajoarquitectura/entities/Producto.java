@@ -18,19 +18,21 @@ import java.util.Set;
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="productoId")
+    @Column(name="productoID")
     private Long productoID;
     private String nombre;
     private String descripcion;
     private double precio;
     @ManyToOne
-    @JoinColumn(name = "marca_id")
+    @JoinColumn(name = "marcaID")
     private Marca marca;
     @ManyToOne
-    @JoinColumn(name = "categoria_Id")
+    @JoinColumn(name = "categoriaID")
     private Categoria categoria;
     @ManyToMany (mappedBy = "supermercadoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Supermercado> supermercado = new HashSet<>();
+    @ManyToMany (mappedBy = "distritoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Distrito> distrito = new HashSet<>();
 
 
 }
