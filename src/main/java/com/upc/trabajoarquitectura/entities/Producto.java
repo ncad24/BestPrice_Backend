@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +29,8 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "categoria_Id")
     private Categoria categoria;
+    @ManyToMany (mappedBy = "supermercadoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Supermercado> supermercado = new HashSet<>();
+
 
 }
