@@ -36,9 +36,9 @@ public class Producto {
     private  List<Categoria> categorias = new ArrayList();
 
     @ManyToMany (mappedBy = "supermercadoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Supermercado> supermercado = new HashSet<>();
+    private Set<Supermercado> supermercados = new HashSet<>();
     @ManyToMany (mappedBy = "distritoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Distrito> distrito = new HashSet<>();
+    private Set<Distrito> distritos = new HashSet<>();
 
 
 }

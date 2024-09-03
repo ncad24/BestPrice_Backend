@@ -20,6 +20,7 @@ public class Marca {
     private Long marcaID;
     private String nombre;
 
+    @ManyToOne
     @JoinColumn(name = "productoID")
     @JsonBackReference("producto_marcas")
     private Producto producto;

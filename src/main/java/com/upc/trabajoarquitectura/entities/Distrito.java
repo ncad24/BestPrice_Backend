@@ -28,5 +28,5 @@ public class Distrito {
             joinColumns = @JoinColumn(name = "distritoID"),
             inverseJoinColumns = @JoinColumn(name = "productoID")
     )
-    private Set<Producto> distritoProducto = new HashSet<>();
+    private Set<Producto> distritoProductos = new HashSet<>();
 }
