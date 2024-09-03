@@ -1,5 +1,6 @@
 package com.upc.trabajoarquitectura.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,9 @@ public class Marca {
     @Column(name="marcaID")
     private Long marcaID;
     private String nombre;
+
+    @JoinColumn(name = "productoID")
+    @JsonBackReference("producto_marcas")
+    private Producto producto;
 
 }

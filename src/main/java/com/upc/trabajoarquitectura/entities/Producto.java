@@ -1,12 +1,15 @@
 package com.upc.trabajoarquitectura.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,12 +26,15 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private double precio;
-    @ManyToOne
-    @JoinColumn(name = "marcaID")
-    private Marca marca;
-    @ManyToOne
-    @JoinColumn(name = "categoriaID")
-    private Categoria categoria;
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    @JsonManagedReference("producto_marcas")
+    private List<Marca> marcas = new ArrayList();
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    @JsonManagedReference("producto_categorias")
+    private  List<Categoria> categorias = new ArrayList();
+
     @ManyToMany (mappedBy = "supermercadoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Supermercado> supermercado = new HashSet<>();
     @ManyToMany (mappedBy = "distritoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
