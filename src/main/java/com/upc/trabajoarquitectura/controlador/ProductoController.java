@@ -20,36 +20,28 @@ public class ProductoController {
     private IProductoService productoService;
 
     @GetMapping("/productos")
-    public List<ProductoDTO> listarTodosLosProductos(){
+    public List<ProductoDTO> listarProductos(){
         ModelMapper mapper = new ModelMapper();
-        List<Producto> productos = productoService.listarTodosLosProductos();
+        List<Producto> productos = productoService.listarProductos();
         List<ProductoDTO> productoDTO = Arrays.asList(mapper.map(productos, ProductoDTO
                 [].class));
         return productoDTO;
     }
     @PostMapping("/producto")
-    public ProductoDTO registrar(@RequestBody ProductoDTO productoDTO){
+    public ProductoDTO registrarProducto(@RequestBody ProductoDTO productoDTO){
         ModelMapper mapper = new ModelMapper();
         Producto producto;
         producto = mapper.map(productoDTO, Producto.class);
-        producto = productoService.registrar(producto);
+        producto = productoService.registrarProducto(producto);
         productoDTO = mapper.map(producto, ProductoDTO.class);
         return productoDTO;
     }
-    @DeleteMapping("/producto/eliminar/{id}")
-    public void eliminar(@PathVariable Long id) throws Exception {
-        try {
-            productoService.eliminar(id);
-        }catch(Exception e){
-            throw new Exception("Disculpe la molestia");
-        }
-    }
     @PutMapping("/producto/actualizar")
-    public ResponseEntity<ProductoDTO> actualizar(@RequestBody ProductoDTO productoDTO){
+    public ResponseEntity<ProductoDTO> actualizarProducto(@RequestBody ProductoDTO productoDTO){
         ModelMapper mapper = new ModelMapper();
         try {
             Producto producto = mapper.map(productoDTO, Producto.class);
-            producto = productoService.actualizar(producto);
+            producto = productoService.actualizarProducto(producto);
             productoDTO = mapper.map(producto, ProductoDTO.class);
         }
         catch (Exception e){
@@ -57,4 +49,13 @@ public class ProductoController {
         }
         return ResponseEntity.ok(productoDTO);
     }
+    @DeleteMapping("/producto/eliminar/{id}")
+    public void eliminarProducto(@PathVariable Long id) throws Exception {
+        try {
+            productoService.eliminarProducto(id);
+        }catch(Exception e){
+            throw new Exception("Disculpe la molestia");
+        }
+    }
+
 }
