@@ -22,13 +22,15 @@ public class ProductoxUsuarioService implements IProductoxUsuarioService {
 
     @Transactional
     public void registrarProductoxUsuario(Long productoID, Long usuarioID) {
-        ProductoxUsuario productoxUsuario = productoxUsuarioRepository.findByProductoIdAndUsuarioId(productoID,usuarioID);
+        ProductoxUsuario productoxUsuario = productoxUsuarioRepository.findByPrimaryKey_Producto_ProductoIDAndPrimaryKey_Usuario_UsuarioID(productoID, usuarioID);
         LocalDate fecha = productoxUsuario.getFecha();
         if (productoxUsuario != null) {
             productoxUsuario.setFecha(fecha);
             productoxUsuarioRepository.save(productoxUsuario);
         }else{
             ProductoxUsuario nuevoProductoxUsuario = new ProductoxUsuario();
+            nuevoProductoxUsuario.setUsuario(usuarioRepository.findById(usuarioID).get());
+            nuevoProductoxUsuario.setProducto(productoRepository.findById(productoID).get());
             nuevoProductoxUsuario.setFecha(fecha);
             productoxUsuarioRepository.save(nuevoProductoxUsuario);
         }

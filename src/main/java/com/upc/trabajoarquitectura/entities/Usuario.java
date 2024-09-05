@@ -27,4 +27,7 @@ public class Usuario {
     @ManyToOne
     @JoinColumn (name = "rolID")
     private Rol rol;
+
+    @OneToMany(mappedBy = "primaryKey.usuario", cascade = CascadeType.ALL)
+    public Set<ProductoxUsuario> productoxUsuario = new HashSet<>();
 }

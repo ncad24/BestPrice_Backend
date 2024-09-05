@@ -35,7 +35,7 @@ public class MarcaController {
         return marcaDTO;
     }
 
-    @PutMapping("/categoria/actualizar")
+    @PutMapping("/marca/actualizar")
     public ResponseEntity<MarcaDTO> actualizarMarca(@RequestBody MarcaDTO marcaDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -49,7 +49,7 @@ public class MarcaController {
         return ResponseEntity.ok(marcaDTO);
     }
 
-    @DeleteMapping("/categoria/eliminar/{id}")
+    @DeleteMapping("/marca/eliminar/{id}")
     public void eliminarMarca(@PathVariable Long id) throws Exception{
         try{
             marcaService.eliminarMarca(id);

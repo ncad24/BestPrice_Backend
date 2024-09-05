@@ -1,18 +1,17 @@
 package com.upc.trabajoarquitectura.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
-public class ProductoxUsuarioID implements Serializable {
-    @ManyToOne
-    @JoinColumn(name = "usuarioID")
+@Getter
+@Setter
+public class ProductoxUsuarioID {
+    @ManyToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "productoID")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Producto producto;
 }

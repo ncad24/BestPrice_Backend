@@ -41,5 +41,7 @@ public class Producto {
     @ManyToMany (mappedBy = "distritoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Distrito> distritos = new HashSet<>();
 
+    @OneToMany(mappedBy = "primaryKey.producto", cascade = CascadeType.ALL)
+    public Set<ProductoxUsuario> productoxUsuarios = new HashSet<>();
 
 }
