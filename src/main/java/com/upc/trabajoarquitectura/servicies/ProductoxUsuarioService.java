@@ -2,7 +2,9 @@ package com.upc.trabajoarquitectura.servicies;
 
 import com.upc.trabajoarquitectura.entities.ProductoxUsuario;
 import com.upc.trabajoarquitectura.interfaces.IProductoxUsuarioService;
+import com.upc.trabajoarquitectura.respository.ProductoRepository;
 import com.upc.trabajoarquitectura.respository.ProductoxUsuarioRepository;
+import com.upc.trabajoarquitectura.respository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,10 @@ import java.time.LocalDate;
 public class ProductoxUsuarioService implements IProductoxUsuarioService {
     @Autowired
     private ProductoxUsuarioRepository productoxUsuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @Transactional
     public void registrarProductoxUsuario(Long productoID, Long usuarioID) {

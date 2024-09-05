@@ -10,13 +10,38 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "productoxusuario")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Table(name="producto_usuario")
+@AssociationOverrides({
+        @AssociationOverride(name = "primaryKey.usuario",
+                joinColumns = @JoinColumn(name = "usuarioID")),
+        @AssociationOverride(name = "primaryKey.producto",
+                joinColumns = @JoinColumn(name = "productoID")) })
 public class ProductoxUsuario {
     @EmbeddedId
-    private ProductoxUsuarioID id;
+    private ProductoxUsuarioID primaryKey = new ProductoxUsuarioID();
+
+    @Column(name = "fecha")
     private LocalDate fecha;
+
+    @Transient
+    public Usuario getUsuario() {
+        return primaryKey.getUsuario();
+    }
+
+    @Transient
+    public Producto getProducto() {
+        return primaryKey.getProducto();
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.primaryKey.setUsuario(usuario);
+    }
+
+    public void setProducto(Producto producto) {
+        this.primaryKey.setProducto(producto);
+    }
 }
