@@ -16,6 +16,5 @@ import lombok.Setter;
 public class MarcaDTO {
     private Long marcaID;
     private String nombre;
-
     private Producto producto;
 }

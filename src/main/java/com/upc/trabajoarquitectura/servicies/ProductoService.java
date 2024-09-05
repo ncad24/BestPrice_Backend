@@ -1,6 +1,8 @@
 package com.upc.trabajoarquitectura.servicies;
 
 import com.upc.trabajoarquitectura.entities.Distrito;
+import com.upc.trabajoarquitectura.entities.Marca;
+import com.upc.trabajoarquitectura.entities.Categoria;
 import com.upc.trabajoarquitectura.entities.Producto;
 import com.upc.trabajoarquitectura.entities.Supermercado;
 import com.upc.trabajoarquitectura.interfaces.IProductoService;
@@ -28,7 +30,17 @@ public class ProductoService implements IProductoService {
         return productoRepository.findAll();
     }
     @Transactional
-    public Producto registrarProducto(Producto producto){
+    public Producto registrarProducto(Producto producto, Long marcaID, Long categoriaID, Long supermercadoID, Long distritoID) throws Exception {
+        //Buscar marca, categoria, supermercado y distrito
+        Marca marca = marcaRepository.findById(marcaID).orElseThrow(() -> new Exception ("Marca no encontrada"));
+        Categoria categoria = categoriaRepository.findById(categoriaID).orElseThrow(()-> new Exception ("Categoria no encontrada"));
+        Supermercado supermercado = supermercadoRepository.findById(supermercadoID).orElseThrow(() -> new Exception ("Supermercado no encontrado"));
+        Distrito distrito = distritoRepository.findById(distritoID).orElseThrow(() -> new Exception("Distrito no encontrado"));
+        //Asignar
+        producto.setMarcas(List.of(marca));
+        producto.setCategorias(List.of(categoria));
+        producto.getSupermercados().add(supermercado);
+        producto.getDistritos().add(distrito);
         return productoRepository.save(producto);
     }
     @Transactional
@@ -48,7 +60,7 @@ public class ProductoService implements IProductoService {
     }
 
     @Transactional
-    public void registrarSupermercadoProducto(Long productoID, Long supermercadoID){
+    public void grabarAsignacionSupermercadoProducto(Long productoID, Long supermercadoID){
         Producto xproducto = productoRepository.findById(productoID).get();
         Supermercado ySupermercado = supermercadoRepository.findById(supermercadoID).get();
         xproducto.getSupermercados().add(ySupermercado);
@@ -58,7 +70,7 @@ public class ProductoService implements IProductoService {
     }
 
     @Transactional
-    public void registrarDistritoProducto(Long productoID, Long distritoID){
+    public void grabarAsignacionDistritoProducto(Long productoID, Long distritoID){
         Producto xproducto = productoRepository.findById(productoID).get();
         Distrito yDistrito = distritoRepository.findById(distritoID).get();
         xproducto.getDistritos().add(yDistrito);

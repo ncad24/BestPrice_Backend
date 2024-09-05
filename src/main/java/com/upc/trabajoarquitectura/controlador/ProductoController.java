@@ -28,16 +28,16 @@ public class ProductoController {
         return productoDTO;
     }
     @PostMapping("/producto")
-    public ProductoDTO registrarProducto(@RequestBody ProductoDTO productoDTO){
+    public ProductoDTO registrarProducto(@RequestBody ProductoDTO productoDTO, @RequestParam Long marcaID, @RequestParam Long categoriaID, @RequestParam Long supermercadoID, @RequestParam Long distritoID) throws Exception {
         ModelMapper mapper = new ModelMapper();
         Producto producto;
         producto = mapper.map(productoDTO, Producto.class);
-        producto = productoService.registrarProducto(producto);
+        producto = productoService.registrarProducto(producto, marcaID, categoriaID, supermercadoID, distritoID);
         productoDTO = mapper.map(producto, ProductoDTO.class);
         return productoDTO;
     }
     @PutMapping("/producto/actualizar")
-    public ResponseEntity<ProductoDTO> actualizarProducto(@RequestBody ProductoDTO productoDTO){
+    public ResponseEntity<ProductoDTO> actualizarProducto(@RequestBody ProductoDTO productoDTO ){
         ModelMapper mapper = new ModelMapper();
         try {
             Producto producto = mapper.map(productoDTO, Producto.class);
