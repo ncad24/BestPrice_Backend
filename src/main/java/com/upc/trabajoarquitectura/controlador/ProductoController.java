@@ -3,7 +3,6 @@ package com.upc.trabajoarquitectura.controlador;
 import com.upc.trabajoarquitectura.dtos.ProductoDTO;
 import com.upc.trabajoarquitectura.entities.Producto;
 import com.upc.trabajoarquitectura.interfaces.IProductoService;
-import com.upc.trabajoarquitectura.servicies.ProductoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,8 +22,7 @@ public class ProductoController {
     public List<ProductoDTO> listarProductos(){
         ModelMapper mapper = new ModelMapper();
         List<Producto> productos = productoService.listarProductos();
-        List<ProductoDTO> productoDTO = Arrays.asList(mapper.map(productos, ProductoDTO
-                [].class));
+        List<ProductoDTO> productoDTO = Arrays.asList(mapper.map(productos, ProductoDTO[].class));
         return productoDTO;
     }
     @PostMapping("/producto")

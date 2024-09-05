@@ -6,9 +6,7 @@ import com.upc.trabajoarquitectura.entities.Categoria;
 import com.upc.trabajoarquitectura.entities.Producto;
 import com.upc.trabajoarquitectura.entities.Supermercado;
 import com.upc.trabajoarquitectura.interfaces.IProductoService;
-import com.upc.trabajoarquitectura.respository.DistritoRepository;
-import com.upc.trabajoarquitectura.respository.ProductoRepository;
-import com.upc.trabajoarquitectura.respository.SupermercadoRepository;
+import com.upc.trabajoarquitectura.respository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,10 @@ public class ProductoService implements IProductoService {
     private SupermercadoRepository supermercadoRepository;
     @Autowired
     private DistritoRepository distritoRepository;
+    @Autowired
+    private MarcaRepository marcaRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @Transactional
     public List<Producto> listarProductos()
