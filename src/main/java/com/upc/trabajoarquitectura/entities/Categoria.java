@@ -1,11 +1,15 @@
 package com.upc.trabajoarquitectura.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -22,10 +26,9 @@ public class Categoria {
     private String nombre;
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "productoID")
-    @JsonBackReference("producto_categorias")
-    private Producto producto;
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+    @JsonManagedReference("producto_categorias")
+    private List<Producto> productos = new ArrayList();
 
 }
 

@@ -23,8 +23,8 @@ public class ProductoDTO {
     private String nombre;
     private String descripcion;
     private double precio;
-    private List<Marca> marcas = new ArrayList<>();
-    private List<Categoria> categorias = new ArrayList();
-    private Set<Supermercado> supermercados = new HashSet<>();
-    private Set<Distrito> distritos = new HashSet<>();
+    private Marca marca;
+    private Categoria categoria;
+    private Set<Supermercado> supermercadoProductos = new HashSet<>();
+    private Set<Distrito> distritoProductos = new HashSet<>();
 }

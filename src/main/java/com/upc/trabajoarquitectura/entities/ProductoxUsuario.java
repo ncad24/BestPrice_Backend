@@ -1,5 +1,7 @@
 package com.upc.trabajoarquitectura.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,11 +30,13 @@ public class ProductoxUsuario {
     private LocalDate fecha;
 
     @Transient
+    @JsonManagedReference
     public Usuario getUsuario() {
         return primaryKey.getUsuario();
     }
 
     @Transient
+    @JsonManagedReference
     public Producto getProducto() {
         return primaryKey.getProducto();
     }
@@ -44,4 +48,5 @@ public class ProductoxUsuario {
     public void setProducto(Producto producto) {
         this.primaryKey.setProducto(producto);
     }
+
 }

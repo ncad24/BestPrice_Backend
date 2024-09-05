@@ -39,10 +39,10 @@ public class ProductoService implements IProductoService {
         Supermercado supermercado = supermercadoRepository.findById(supermercadoID).orElseThrow(() -> new Exception ("Supermercado no encontrado"));
         Distrito distrito = distritoRepository.findById(distritoID).orElseThrow(() -> new Exception("Distrito no encontrado"));
         //Asignar
-        producto.setMarcas(List.of(marca));
-        producto.setCategorias(List.of(categoria));
-        producto.getSupermercados().add(supermercado);
-        producto.getDistritos().add(distrito);
+        producto.setMarca(marca);
+        producto.setCategoria(categoria);
+        producto.getSupermercadoProductos().add(supermercado);
+        producto.getDistritoProductos().add(distrito);
         return productoRepository.save(producto);
     }
     @Transactional
@@ -65,8 +65,8 @@ public class ProductoService implements IProductoService {
     public void grabarAsignacionSupermercadoProducto(Long productoID, Long supermercadoID){
         Producto xproducto = productoRepository.findById(productoID).get();
         Supermercado ySupermercado = supermercadoRepository.findById(supermercadoID).get();
-        xproducto.getSupermercados().add(ySupermercado);
-        ySupermercado.getSupermercadoProductos().add(xproducto);
+        xproducto.getSupermercadoProductos().add(ySupermercado);
+        ySupermercado.getProductos().add(xproducto);
         productoRepository.save(xproducto);
         supermercadoRepository.save(ySupermercado);
     }
@@ -75,8 +75,8 @@ public class ProductoService implements IProductoService {
     public void grabarAsignacionDistritoProducto(Long productoID, Long distritoID){
         Producto xproducto = productoRepository.findById(productoID).get();
         Distrito yDistrito = distritoRepository.findById(distritoID).get();
-        xproducto.getDistritos().add(yDistrito);
-        yDistrito.getDistritoProductos().add(xproducto);
+        xproducto.getDistritoProductos().add(yDistrito);
+        yDistrito.getProductos().add(xproducto);
         productoRepository.save(xproducto);
         distritoRepository.save(yDistrito);
     }

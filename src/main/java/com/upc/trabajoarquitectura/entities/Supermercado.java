@@ -1,5 +1,6 @@
 package com.upc.trabajoarquitectura.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,13 +23,12 @@ public class Supermercado {
     private Long supermercadoID;
     private String nombre;
     private String descripcion;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "supermercado_producto",
-            joinColumns = @JoinColumn(name = "supermercadoID"),
-            inverseJoinColumns = @JoinColumn(name = "productoID")
-    )
-    private Set<Producto> supermercadoProductos = new HashSet<>();
+
+    @ManyToMany (mappedBy = "supermercadoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference("producto_supermercado")
+    private Set<Producto> productos = new HashSet<>();
+
+
 
 }
 

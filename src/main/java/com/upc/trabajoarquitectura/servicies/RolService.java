@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,11 @@ public class RolService implements IRolService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Transactional
+    public List<Rol> listarRoles() {
+        return rolRepository.findAll();
+    }
 
     @Transactional
     public Rol registrarRol(Rol rol){

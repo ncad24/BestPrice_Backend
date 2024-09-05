@@ -1,4 +1,6 @@
 package com.upc.trabajoarquitectura.entities;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +23,7 @@ public class Usuario {
     private Long usuarioID;
     private String nombres;
     private String apellidos;
-    private char telefono;
+    private String telefono;
     private String nombreUsuario;
     private String contrasenia;
     @ManyToOne
@@ -29,5 +31,6 @@ public class Usuario {
     private Rol rol;
 
     @OneToMany(mappedBy = "primaryKey.usuario", cascade = CascadeType.ALL)
-    public Set<ProductoxUsuario> productoxUsuario = new HashSet<>();
+    @JsonBackReference
+    private Set<ProductoxUsuario> productoxUsuario = new HashSet<>();
 }

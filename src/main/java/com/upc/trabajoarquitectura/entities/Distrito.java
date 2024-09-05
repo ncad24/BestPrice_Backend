@@ -1,5 +1,6 @@
 package com.upc.trabajoarquitectura.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,11 +23,8 @@ public class Distrito {
     @Column(name="distritoID")
     private Long distritoID;
     private String nombre;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "distrito_producto",
-            joinColumns = @JoinColumn(name = "distritoID"),
-            inverseJoinColumns = @JoinColumn(name = "productoID")
-    )
-    private Set<Producto> distritoProductos = new HashSet<>();
+
+    @ManyToMany (mappedBy = "distritoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference("producto_distrito")
+    private Set<Producto> productos = new HashSet<>();
 }

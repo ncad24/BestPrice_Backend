@@ -16,7 +16,7 @@ public class UsuarioDTO {
     private Long usuarioID;
     private String nombres;
     private String apellidos;
-    private char telefono;
+    private String telefono;
     private String nombreUsuario;
     private String contrasenia;
 

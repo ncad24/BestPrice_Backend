@@ -19,6 +19,14 @@ public class ProductoxUsuarioController {
     @Autowired
     private ProductoxUsuarioService productoxUsuarioService;
 
+    @GetMapping("/productos/usuarios")
+    public List<ProductoxUsuarioDTO> obtenerProductoxUsuarios() {
+        ModelMapper mapper = new ModelMapper();
+        List<ProductoxUsuario> productoxUsuarios = productoxUsuarioService.listarProductoxUsuario();
+        List<ProductoxUsuarioDTO> productoxUsuarioDTOS = Arrays.asList(mapper.map(productoxUsuarios, ProductoxUsuarioDTO[].class));
+        return productoxUsuarioDTOS;
+    }
+
     @PostMapping("/producto/usuario/{productoID}/{usuarioID}")
     public void registrarProudctoxUsuario(@PathVariable Long productoID, @PathVariable Long usuarioID){
         productoxUsuarioService.registrarProductoxUsuario(productoID, usuarioID);

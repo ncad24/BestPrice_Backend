@@ -28,20 +28,36 @@ public class Producto {
     private String descripcion;
     private double precio;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-    @JsonManagedReference("producto_marcas")
-    private List<Marca> marcas = new ArrayList();
+    @ManyToOne
+    @JsonBackReference("producto_marcas")
+    @JoinColumn(name = "marcaID")
+    private Marca marca;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-    @JsonManagedReference("producto_categorias")
-    private  List<Categoria> categorias = new ArrayList();
+    @ManyToOne
+    @JoinColumn(name = "categoriaID")
+    @JsonBackReference("producto_categorias")
+    private Categoria categoria;
 
-    @ManyToMany (mappedBy = "supermercadoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Supermercado> supermercados = new HashSet<>();
-    @ManyToMany (mappedBy = "distritoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Distrito> distritos = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference("producto_supermercado")
+    @JoinTable(
+            name = "supermercado_producto",
+            joinColumns = @JoinColumn(name = "productoID"),
+            inverseJoinColumns = @JoinColumn(name = "supermercadoID")
+    )
+    private Set<Supermercado> supermercadoProductos = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference("producto_distrito")
+    @JoinTable(
+            name = "distrito_producto",
+            joinColumns = @JoinColumn(name = "productoID"),
+            inverseJoinColumns = @JoinColumn(name = "distritoID")
+    )
+    private Set<Distrito> distritoProductos = new HashSet<>();
 
     @OneToMany(mappedBy = "primaryKey.producto", cascade = CascadeType.ALL)
-    public Set<ProductoxUsuario> productoxUsuarios = new HashSet<>();
+    @JsonBackReference
+    private Set<ProductoxUsuario> productoxUsuarios = new HashSet<>();
 
 }

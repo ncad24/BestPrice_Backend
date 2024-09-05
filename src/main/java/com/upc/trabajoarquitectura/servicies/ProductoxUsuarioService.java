@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ProductoxUsuarioService implements IProductoxUsuarioService {
@@ -21,9 +22,13 @@ public class ProductoxUsuarioService implements IProductoxUsuarioService {
     private ProductoRepository productoRepository;
 
     @Transactional
+    public List<ProductoxUsuario> listarProductoxUsuario () {
+        return productoxUsuarioRepository.findAll();
+    }
+    @Transactional
     public void registrarProductoxUsuario(Long productoID, Long usuarioID) {
         ProductoxUsuario productoxUsuario = productoxUsuarioRepository.findByPrimaryKey_Producto_ProductoIDAndPrimaryKey_Usuario_UsuarioID(productoID, usuarioID);
-        LocalDate fecha = productoxUsuario.getFecha();
+        LocalDate fecha = LocalDate.now();
         if (productoxUsuario != null) {
             productoxUsuario.setFecha(fecha);
             productoxUsuarioRepository.save(productoxUsuario);

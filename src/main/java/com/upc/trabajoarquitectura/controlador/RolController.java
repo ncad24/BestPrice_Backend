@@ -18,6 +18,14 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
+    @GetMapping("/roles")
+    public List<RolDTO> listarRoles() {
+        ModelMapper modelMapper = new ModelMapper();
+        List<Rol> roles = rolService.listarRoles();
+        List<RolDTO> rolDTOs = modelMapper.map(roles, List.class);
+        return rolDTOs;
+    }
+
     @PostMapping("/rol")
     public RolDTO registrarRol(@RequestBody RolDTO rolDTO){
         ModelMapper mapper = new ModelMapper();
