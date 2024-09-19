@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -19,6 +20,7 @@ public class CategoriaController {
     private ICategoriaService categoriaService;
 
     @GetMapping("/categorias")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<CategoriaDTO> listarCategorias(){
         ModelMapper mapper = new ModelMapper();
         List<Categoria> categorias = categoriaService.listarCategorias();
@@ -27,6 +29,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/categoria")
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoriaDTO registrarCategoria(@RequestBody CategoriaDTO categoriaDTO){
         ModelMapper mapper = new ModelMapper();
         Categoria categoria = mapper.map(categoriaDTO, Categoria.class);
@@ -36,6 +39,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/categoria/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoriaDTO> actualizarCategoria(@RequestBody CategoriaDTO categoriaDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -50,6 +54,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/categoria/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarCategoria(@PathVariable Long id) throws Exception{
         try{
             categoriaService.eliminarCategoria(id);

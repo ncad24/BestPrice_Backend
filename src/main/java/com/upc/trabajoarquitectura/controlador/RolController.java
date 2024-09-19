@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -18,6 +19,7 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/roles")
     public List<RolDTO> listarRoles() {
         ModelMapper modelMapper = new ModelMapper();
@@ -26,6 +28,7 @@ public class RolController {
         return rolDTOs;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/rol")
     public RolDTO registrarRol(@RequestBody RolDTO rolDTO){
         ModelMapper mapper = new ModelMapper();
@@ -35,6 +38,7 @@ public class RolController {
         return rolDTO;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/rol/actualizar")
     public ResponseEntity<RolDTO> actualizarRol(@RequestBody RolDTO rolDTO){
         ModelMapper mapper = new ModelMapper();
@@ -49,6 +53,7 @@ public class RolController {
         return ResponseEntity.ok(rolDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/rol/eliminar/{id}")
     public void eliminarRol(@PathVariable Long id) throws Exception{
         try{
@@ -58,6 +63,7 @@ public class RolController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/rol/asignar/{rolID}/{usuarioID}")
     public void asignarRol(@PathVariable Long rolID, @PathVariable Long usuarioID) throws Exception{
         try {

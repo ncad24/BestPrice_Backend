@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -17,7 +18,9 @@ import java.util.List;
 public class SupermercadoController {
     @Autowired
     private ISupermercadoService supermercadoService;
+
     @GetMapping("/supermercados")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<SupermercadoDTO> listarSupermercados(){
         ModelMapper mapper = new ModelMapper();
         List<Supermercado> supermercado = supermercadoService.listarSupermercados();

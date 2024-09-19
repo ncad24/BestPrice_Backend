@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -19,6 +20,7 @@ public class DistritoController {
     private IDistritoService distritoService;
 
     @GetMapping("/distritos")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<DistritoDTO> listarDistritos(){
         ModelMapper mapper = new ModelMapper();
         List<Distrito> distritos = distritoService.listarDistritos();
@@ -27,6 +29,7 @@ public class DistritoController {
     }
 
     @PostMapping("/distrito")
+    @PreAuthorize("hasRole('ADMIN')")
     public DistritoDTO registrarDistrito(@RequestBody DistritoDTO distritoDTO){
         ModelMapper mapper = new ModelMapper();
         Distrito distrito = mapper.map(distritoDTO, Distrito.class);
@@ -36,6 +39,7 @@ public class DistritoController {
     }
 
     @PutMapping("/distrito/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<DistritoDTO> actualizarDistrito(@RequestBody DistritoDTO distritoDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -50,6 +54,7 @@ public class DistritoController {
     }
 
     @DeleteMapping("/distrito/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarDistrito(@PathVariable Long id) throws Exception{
         try{
             distritoService.eliminarDistrito(id);
