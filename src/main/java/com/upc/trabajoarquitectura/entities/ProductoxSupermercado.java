@@ -1,6 +1,5 @@
 package com.upc.trabajoarquitectura.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -17,21 +15,28 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @AssociationOverrides({
-        @AssociationOverride(name = "primaryKey.usuario",
-                joinColumns = @JoinColumn(name = "usuarioID")),
+        @AssociationOverride(name = "primaryKey.supermercado",
+                joinColumns = @JoinColumn(name = "supermercadoID")),
         @AssociationOverride(name = "primaryKey.producto",
                 joinColumns = @JoinColumn(name = "productoID")) })
-public class ProductoxUsuario {
+public class ProductoxSupermercado {
     @EmbeddedId
-    private ProductoxUsuarioID primaryKey = new ProductoxUsuarioID();
+    private ProductoxSupermercadoID primaryKey = new ProductoxSupermercadoID();
+
+    @Column(name = "precio")
+    private double precio;
 
     @Column(name = "fecha")
     private LocalDate fecha;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "descuentoID")
+    private Descuento descuento;
+
     @Transient
     @JsonManagedReference
-    public Usuario getUsuario() {
-        return primaryKey.getUsuario();
+    public Supermercado getSupermercado() {
+        return primaryKey.getSupermercado();
     }
 
     @Transient
@@ -40,8 +45,8 @@ public class ProductoxUsuario {
         return primaryKey.getProducto();
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.primaryKey.setUsuario(usuario);
+    public void setSupermercado(Supermercado supermercado) {
+        this. primaryKey.setSupermercado(supermercado);
     }
 
     public void setProducto(Producto producto) {

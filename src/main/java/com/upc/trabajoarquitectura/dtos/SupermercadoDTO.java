@@ -19,6 +19,4 @@ public class SupermercadoDTO {
     private Long supermercadoID;
     private String nombre;
     private String descripcion;
-
-    private Set<Producto> supermercadoProductos = new HashSet<>();
 }

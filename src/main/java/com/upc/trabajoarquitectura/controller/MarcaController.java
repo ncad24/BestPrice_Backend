@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.controlador;
+package com.upc.trabajoarquitectura.controller;
 
 import com.upc.trabajoarquitectura.dtos.MarcaDTO;
 import com.upc.trabajoarquitectura.entities.Marca;
@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -19,6 +20,7 @@ public class MarcaController {
     private IMarcaService marcaService;
 
     @GetMapping("/marcas")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<MarcaDTO> listarMarcas(){
         ModelMapper mapper = new ModelMapper();
         List<Marca> marcas = marcaService.listarMarca();
@@ -27,6 +29,7 @@ public class MarcaController {
     }
 
     @PostMapping("/marca")
+    @PreAuthorize("hasRole('ADMIN')")
     public MarcaDTO registrarMarca(@RequestBody MarcaDTO marcaDTO){
         ModelMapper mapper = new ModelMapper();
         Marca marca = mapper.map(marcaDTO, Marca.class);
@@ -36,6 +39,7 @@ public class MarcaController {
     }
 
     @PutMapping("/marca/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MarcaDTO> actualizarMarca(@RequestBody MarcaDTO marcaDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -50,6 +54,7 @@ public class MarcaController {
     }
 
     @DeleteMapping("/marca/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarMarca(@PathVariable Long id) throws Exception{
         try{
             marcaService.eliminarMarca(id);

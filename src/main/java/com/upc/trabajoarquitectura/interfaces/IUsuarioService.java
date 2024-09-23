@@ -2,6 +2,7 @@ package com.upc.trabajoarquitectura.interfaces;
 
 import com.upc.trabajoarquitectura.entities.Usuario;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IUsuarioService {

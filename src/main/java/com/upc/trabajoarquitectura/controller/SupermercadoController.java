@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.controlador;
+package com.upc.trabajoarquitectura.controller;
 
 import com.upc.trabajoarquitectura.dtos.SupermercadoDTO;
 import com.upc.trabajoarquitectura.entities.Supermercado;
@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -17,7 +18,9 @@ import java.util.List;
 public class SupermercadoController {
     @Autowired
     private ISupermercadoService supermercadoService;
+
     @GetMapping("/supermercados")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<SupermercadoDTO> listarSupermercados(){
         ModelMapper mapper = new ModelMapper();
         List<Supermercado> supermercado = supermercadoService.listarSupermercados();
@@ -26,6 +29,7 @@ public class SupermercadoController {
     }
 
     @PostMapping("/supermercado")
+    @PreAuthorize("hasRole('ADMIN')")
     public SupermercadoDTO registrarSupermercado(@RequestBody SupermercadoDTO supermercadoDTO){
         ModelMapper mapper = new ModelMapper();
         Supermercado supermercado = mapper.map(supermercadoDTO, Supermercado.class);
@@ -35,6 +39,7 @@ public class SupermercadoController {
     }
 
     @PutMapping("/supermercado/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SupermercadoDTO> actualizarSupermercado(@RequestBody SupermercadoDTO supermercadoDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -49,6 +54,7 @@ public class SupermercadoController {
     }
 
     @DeleteMapping("/supermercado/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarSupermercado(@PathVariable Long id) throws Exception{
         try{
             supermercadoService.eliminarSupermercado(id);

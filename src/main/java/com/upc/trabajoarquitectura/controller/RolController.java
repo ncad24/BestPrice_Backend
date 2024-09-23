@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.controlador;
+package com.upc.trabajoarquitectura.controller;
 
 import com.upc.trabajoarquitectura.dtos.RolDTO;
 import com.upc.trabajoarquitectura.entities.Rol;
@@ -7,9 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -19,6 +19,7 @@ public class RolController {
     private IRolService rolService;
 
     @GetMapping("/roles")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<RolDTO> listarRoles() {
         ModelMapper modelMapper = new ModelMapper();
         List<Rol> roles = rolService.listarRoles();
@@ -27,6 +28,7 @@ public class RolController {
     }
 
     @PostMapping("/rol")
+    @PreAuthorize("hasRole('ADMIN')")
     public RolDTO registrarRol(@RequestBody RolDTO rolDTO){
         ModelMapper mapper = new ModelMapper();
         Rol rol = mapper.map(rolDTO, Rol.class);
@@ -36,6 +38,7 @@ public class RolController {
     }
 
     @PutMapping("/rol/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RolDTO> actualizarRol(@RequestBody RolDTO rolDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -50,6 +53,7 @@ public class RolController {
     }
 
     @DeleteMapping("/rol/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarRol(@PathVariable Long id) throws Exception{
         try{
             rolService.eliminarRol(id);
@@ -59,6 +63,7 @@ public class RolController {
     }
 
     @PostMapping("/rol/asignar/{rolID}/{usuarioID}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void asignarRol(@PathVariable Long rolID, @PathVariable Long usuarioID) throws Exception{
         try {
             rolService.asignarRol(rolID, usuarioID);

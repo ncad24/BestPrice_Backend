@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="usuario")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +24,11 @@ public class Usuario {
     private String nombres;
     private String apellidos;
     private String telefono;
+    private String correo;
+    private String genero;
     private String nombreUsuario;
     private String contrasenia;
+    private String rutaImagen;
     @ManyToOne
     @JoinColumn (name = "rolID")
     private Rol rol;
