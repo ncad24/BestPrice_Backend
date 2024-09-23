@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.controlador;
+package com.upc.trabajoarquitectura.controller;
 
 import com.upc.trabajoarquitectura.dtos.MarcaDTO;
 import com.upc.trabajoarquitectura.entities.Marca;
@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -19,23 +20,34 @@ public class MarcaController {
     private IMarcaService marcaService;
 
     @GetMapping("/marcas")
-    public List<MarcaDTO> listarMarcas(){
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<List<MarcaDTO>> listarMarcas(){
         ModelMapper mapper = new ModelMapper();
-        List<Marca> marcas = marcaService.listarMarca();
-        List<MarcaDTO> marcaDTO = Arrays.asList(mapper.map(marcas, MarcaDTO[].class));
-        return marcaDTO;
+        try{
+            List<Marca> marcas = marcaService.listarMarca();
+            List<MarcaDTO> marcaDTO = Arrays.asList(mapper.map(marcas, MarcaDTO[].class));
+            return new ResponseEntity<>(marcaDTO, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/marca")
-    public MarcaDTO registrarMarca(@RequestBody MarcaDTO marcaDTO){
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<MarcaDTO> registrarMarca(@RequestBody MarcaDTO marcaDTO){
         ModelMapper mapper = new ModelMapper();
-        Marca marca = mapper.map(marcaDTO, Marca.class);
-        marca = marcaService.registrarMarca(marca);
-        marcaDTO = mapper.map(marca, MarcaDTO.class);
-        return marcaDTO;
+        try {
+            Marca marca = mapper.map(marcaDTO, Marca.class);
+            marca = marcaService.registrarMarca(marca);
+            marcaDTO = mapper.map(marca, MarcaDTO.class);
+            return new ResponseEntity<>(marcaDTO, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/marca/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MarcaDTO> actualizarMarca(@RequestBody MarcaDTO marcaDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -50,6 +62,7 @@ public class MarcaController {
     }
 
     @DeleteMapping("/marca/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarMarca(@PathVariable Long id) throws Exception{
         try{
             marcaService.eliminarMarca(id);

@@ -1,10 +1,8 @@
 package com.upc.trabajoarquitectura.dtos;
 
+import com.upc.trabajoarquitectura.entities.Descuento;
 import com.upc.trabajoarquitectura.entities.Producto;
-import com.upc.trabajoarquitectura.entities.Usuario;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.upc.trabajoarquitectura.entities.Supermercado;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +15,10 @@ import java.time.LocalDate;
 @Setter
 @Getter
 
-public class ProductoxUsuarioDTO {
-    private Usuario usuario;
+public class ProductoxSupermercadoDTO {
+    private Supermercado supermercado;
     private Producto producto;
+    private double precio;
     private LocalDate fecha;
+    private Descuento descuento;
 }

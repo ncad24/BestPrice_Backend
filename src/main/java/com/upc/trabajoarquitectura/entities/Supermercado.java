@@ -1,5 +1,6 @@
 package com.upc.trabajoarquitectura.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="supermercado")
 public class Supermercado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,9 @@ public class Supermercado {
     private String nombre;
     private String descripcion;
 
-    @ManyToMany (mappedBy = "supermercadoProductos", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference("producto_supermercado")
-    private Set<Producto> productos = new HashSet<>();
-
-
+    @OneToMany(mappedBy = "primaryKey.supermercado", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<ProductoxSupermercado> productoxSupermercados = new HashSet<>();
 
 }
 

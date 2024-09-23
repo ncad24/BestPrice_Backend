@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IProductoxUsuarioService {
     public List<ProductoxUsuario> listarProductoxUsuario ();
-    public void registrarProductoxUsuario(Long productoID, Long usuarioID);
+    public void registrarProductoxUsuario(Long productoID, Long usuarioID) throws Exception;
 }

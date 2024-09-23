@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.controlador;
+package com.upc.trabajoarquitectura.controller;
 
 import com.upc.trabajoarquitectura.dtos.SupermercadoDTO;
 import com.upc.trabajoarquitectura.entities.Supermercado;
@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -17,24 +18,36 @@ import java.util.List;
 public class SupermercadoController {
     @Autowired
     private ISupermercadoService supermercadoService;
+
     @GetMapping("/supermercados")
-    public List<SupermercadoDTO> listarSupermercados(){
-        ModelMapper mapper = new ModelMapper();
-        List<Supermercado> supermercado = supermercadoService.listarSupermercados();
-        List<SupermercadoDTO> supermercadoDTO = Arrays.asList(mapper.map(supermercado, SupermercadoDTO[].class));
-        return supermercadoDTO;
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<List<SupermercadoDTO>> listarSupermercados(){
+        try{
+            ModelMapper mapper = new ModelMapper();
+            List<Supermercado> supermercado = supermercadoService.listarSupermercados();
+            List<SupermercadoDTO> supermercadoDTO = Arrays.asList(mapper.map(supermercado, SupermercadoDTO[].class));
+            return new ResponseEntity<>(supermercadoDTO, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/supermercado")
-    public SupermercadoDTO registrarSupermercado(@RequestBody SupermercadoDTO supermercadoDTO){
-        ModelMapper mapper = new ModelMapper();
-        Supermercado supermercado = mapper.map(supermercadoDTO, Supermercado.class);
-        supermercado = supermercadoService.registrarSupermercado(supermercado);
-        supermercadoDTO = mapper.map(supermercado, SupermercadoDTO.class);
-        return supermercadoDTO;
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SupermercadoDTO> registrarSupermercado(@RequestBody SupermercadoDTO supermercadoDTO){
+        try{
+            ModelMapper mapper = new ModelMapper();
+            Supermercado supermercado = mapper.map(supermercadoDTO, Supermercado.class);
+            supermercado = supermercadoService.registrarSupermercado(supermercado);
+            supermercadoDTO = mapper.map(supermercado, SupermercadoDTO.class);
+            return new ResponseEntity<>(supermercadoDTO, HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/supermercado/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SupermercadoDTO> actualizarSupermercado(@RequestBody SupermercadoDTO supermercadoDTO){
         ModelMapper mapper = new ModelMapper();
         try {
@@ -49,6 +62,7 @@ public class SupermercadoController {
     }
 
     @DeleteMapping("/supermercado/eliminar/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarSupermercado(@PathVariable Long id) throws Exception{
         try{
             supermercadoService.eliminarSupermercado(id);

@@ -11,13 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="rol")
-
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="rolID")
-    private Long RolID;
+    private Long rolID;
     private String nombreRol;
     private String descripcion;
 }

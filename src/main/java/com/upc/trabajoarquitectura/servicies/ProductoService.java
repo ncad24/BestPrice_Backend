@@ -1,10 +1,8 @@
 package com.upc.trabajoarquitectura.servicies;
 
-import com.upc.trabajoarquitectura.entities.Distrito;
 import com.upc.trabajoarquitectura.entities.Marca;
 import com.upc.trabajoarquitectura.entities.Categoria;
 import com.upc.trabajoarquitectura.entities.Producto;
-import com.upc.trabajoarquitectura.entities.Supermercado;
 import com.upc.trabajoarquitectura.interfaces.IProductoService;
 import com.upc.trabajoarquitectura.respository.*;
 import jakarta.transaction.Transactional;
@@ -18,10 +16,6 @@ public class ProductoService implements IProductoService {
     @Autowired
     private ProductoRepository productoRepository;
     @Autowired
-    private SupermercadoRepository supermercadoRepository;
-    @Autowired
-    private DistritoRepository distritoRepository;
-    @Autowired
     private MarcaRepository marcaRepository;
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -32,17 +26,14 @@ public class ProductoService implements IProductoService {
         return productoRepository.findAll();
     }
     @Transactional
-    public Producto registrarProducto(Producto producto, Long marcaID, Long categoriaID, Long supermercadoID, Long distritoID) throws Exception {
-        //Buscar marca, categoria, supermercado y distrito
+    public Producto registrarProducto(Producto producto, Long marcaID, Long categoriaID) throws Exception {
+        //Buscar marca, categoria
         Marca marca = marcaRepository.findById(marcaID).orElseThrow(() -> new Exception ("Marca no encontrada"));
         Categoria categoria = categoriaRepository.findById(categoriaID).orElseThrow(()-> new Exception ("Categoria no encontrada"));
-        Supermercado supermercado = supermercadoRepository.findById(supermercadoID).orElseThrow(() -> new Exception ("Supermercado no encontrado"));
-        Distrito distrito = distritoRepository.findById(distritoID).orElseThrow(() -> new Exception("Distrito no encontrado"));
+
         //Asignar
         producto.setMarca(marca);
         producto.setCategoria(categoria);
-        producto.getSupermercadoProductos().add(supermercado);
-        producto.getDistritoProductos().add(distrito);
         return productoRepository.save(producto);
     }
     @Transactional
@@ -61,24 +52,16 @@ public class ProductoService implements IProductoService {
         }
     }
 
-    @Transactional
-    public void grabarAsignacionSupermercadoProducto(Long productoID, Long supermercadoID){
-        Producto xproducto = productoRepository.findById(productoID).get();
-        Supermercado ySupermercado = supermercadoRepository.findById(supermercadoID).get();
-        xproducto.getSupermercadoProductos().add(ySupermercado);
-        ySupermercado.getProductos().add(xproducto);
-        productoRepository.save(xproducto);
-        supermercadoRepository.save(ySupermercado);
+    @Override
+    public List<Producto> encontrarPorNombreProducto(String nombreProducto){
+        return productoRepository.findByNombreStartsWith(nombreProducto);
     }
-
-    @Transactional
-    public void grabarAsignacionDistritoProducto(Long productoID, Long distritoID){
-        Producto xproducto = productoRepository.findById(productoID).get();
-        Distrito yDistrito = distritoRepository.findById(distritoID).get();
-        xproducto.getDistritoProductos().add(yDistrito);
-        yDistrito.getProductos().add(xproducto);
-        productoRepository.save(xproducto);
-        distritoRepository.save(yDistrito);
+    @Override
+    public List<Producto> encontrarPorCategoriaProducto(String nombreCategoria){
+        return productoRepository.findByCategoria_Nombre(nombreCategoria);
     }
-
+    @Override
+    public List<Producto> encontrarPorMarcaProducto(String nombreMarca){
+        return productoRepository.findByMarca_Nombre(nombreMarca);
+    }
 }

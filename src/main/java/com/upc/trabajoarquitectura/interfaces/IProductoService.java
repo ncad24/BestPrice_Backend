@@ -7,10 +7,11 @@ import java.util.List;
 
 public interface IProductoService {
     public List<Producto> listarProductos();
-    public Producto registrarProducto(Producto producto,Long marcaID, Long categoriaID, Long supermercadoID, Long distritoID) throws Exception;
+    public Producto registrarProducto(Producto producto,Long marcaID, Long categoriaID) throws Exception;
     public Producto actualizarProducto(Producto producto);
     public void eliminarProducto(Long productoID) throws Exception;
-    //Se utiliza para modificar para asignar un producto a un supermercado, es decir actualizar
-    public void grabarAsignacionSupermercadoProducto(Long productoID, Long supermercadoID);
-    public void grabarAsignacionDistritoProducto(Long productoID, Long distritoID);
+
+    public List<Producto> encontrarPorNombreProducto(String nombreProducto);
+    public List<Producto> encontrarPorCategoriaProducto(String nombreCategoria);
+    public List<Producto> encontrarPorMarcaProducto(String nombreMarca);
 }

@@ -9,9 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-
-public class RolDTO {
-    private Long rolID;
-    private String nombreRol;
-    private String descripcion;
+public class PrecioProductosSupermercadoDTO {
+    private Long idProducto;
+    private String nombreProducto;
+    private double precioProducto;
 }
