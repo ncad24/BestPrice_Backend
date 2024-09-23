@@ -18,6 +18,7 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/roles")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<RolDTO>> listarRoles() {
@@ -31,6 +32,7 @@ public class RolController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/rol")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RolDTO> registrarRol(@RequestBody RolDTO rolDTO){
@@ -45,6 +47,7 @@ public class RolController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/rol/actualizar")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RolDTO> actualizarRol(@RequestBody RolDTO rolDTO){
@@ -60,6 +63,7 @@ public class RolController {
         return ResponseEntity.ok(rolDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/rol/eliminar/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void eliminarRol(@PathVariable Long id) throws Exception{
@@ -70,6 +74,7 @@ public class RolController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/rol/asignar/{rolID}/{usuarioID}")
     @PreAuthorize("hasRole('ADMIN')")
     public void asignarRol(@PathVariable Long rolID, @PathVariable Long usuarioID) throws Exception{
