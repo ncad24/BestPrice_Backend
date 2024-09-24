@@ -11,3 +11,4 @@ public interface ICategoriaService {
     public Categoria actualizarCategoria(Categoria categoria);
     public void eliminarCategoria(Long categoriaID) throws Exception;
 }
+
