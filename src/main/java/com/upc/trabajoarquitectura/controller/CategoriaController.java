@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class CategoriaController {
     @Autowired
-    private ICategoriaService categoriaService;
+        private ICategoriaService categoriaService;
 
     @GetMapping("/categorias")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
