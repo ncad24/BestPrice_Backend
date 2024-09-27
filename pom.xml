@@ -113,6 +113,8 @@
                 </configuration>
             </plugin>
         </plugins>
+        <!-- AWS -->
+        <finalName>BestPriceApp</finalName>
     </build>
 
 </project>

@@ -13,37 +13,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:4200","http://18.223.169.236/"})
 @RestController
 @RequestMapping("/api")
 public class CategoriaController {
     @Autowired
-        private ICategoriaService categoriaService;
+    private ICategoriaService categoriaService;
 
     @GetMapping("/categorias")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<List<CategoriaDTO>> listarCategorias(){
+    public List<CategoriaDTO> listarCategorias(){
         ModelMapper mapper = new ModelMapper();
-        try{
-            List<Categoria> categorias = categoriaService.listarCategorias();
-            List<CategoriaDTO> categoriaDTO = Arrays.asList(mapper.map(categorias, CategoriaDTO[].class));
-            return new ResponseEntity<>(categoriaDTO, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Categoria> categorias = categoriaService.listarCategorias();
+        List<CategoriaDTO> categoriaDTO = Arrays.asList(mapper.map(categorias, CategoriaDTO[].class));
+        return categoriaDTO;
     }
 
     @PostMapping("/categoria")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CategoriaDTO> registrarCategoria(@RequestBody CategoriaDTO categoriaDTO){
+    public CategoriaDTO registrarCategoria(@RequestBody CategoriaDTO categoriaDTO){
         ModelMapper mapper = new ModelMapper();
-        try{
-            Categoria categoria = mapper.map(categoriaDTO, Categoria.class);
-            categoria = categoriaService.registrarCategoria(categoria);
-            categoriaDTO = mapper.map(categoria, CategoriaDTO.class);
-            return new ResponseEntity<>(categoriaDTO, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        Categoria categoria = mapper.map(categoriaDTO, Categoria.class);
+        categoria = categoriaService.registrarCategoria(categoria);
+        categoriaDTO = mapper.map(categoria, CategoriaDTO.class);
+        return categoriaDTO;
     }
 
     @PutMapping("/categoria/actualizar")

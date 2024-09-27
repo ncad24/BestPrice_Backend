@@ -26,22 +26,18 @@ public class ProductoxUsuarioService implements IProductoxUsuarioService {
         return productoxUsuarioRepository.findAll();
     }
     @Transactional
-    public void registrarProductoxUsuario(Long productoID, Long usuarioID) throws Exception{
-        try{
-            ProductoxUsuario productoxUsuario = productoxUsuarioRepository.findByPrimaryKey_Producto_ProductoIDAndPrimaryKey_Usuario_UsuarioID(productoID, usuarioID);
-            LocalDate fecha = LocalDate.now();
-            if (productoxUsuario != null) {
-                productoxUsuario.setFecha(fecha);
-                productoxUsuarioRepository.save(productoxUsuario);
-            }else{
-                ProductoxUsuario nuevoProductoxUsuario = new ProductoxUsuario();
-                nuevoProductoxUsuario.setUsuario(usuarioRepository.findById(usuarioID).get());
-                nuevoProductoxUsuario.setProducto(productoRepository.findById(productoID).get());
-                nuevoProductoxUsuario.setFecha(fecha);
-                productoxUsuarioRepository.save(nuevoProductoxUsuario);
-            }
-        }catch (Exception e){
-            throw new Exception("Registro de producto con usuario fallido: "+ e.getMessage());
+    public void registrarProductoxUsuario(Long productoID, Long usuarioID) {
+        ProductoxUsuario productoxUsuario = productoxUsuarioRepository.findByPrimaryKey_Producto_ProductoIDAndPrimaryKey_Usuario_UsuarioID(productoID, usuarioID);
+        LocalDate fecha = LocalDate.now();
+        if (productoxUsuario != null) {
+            productoxUsuario.setFecha(fecha);
+            productoxUsuarioRepository.save(productoxUsuario);
+        }else{
+            ProductoxUsuario nuevoProductoxUsuario = new ProductoxUsuario();
+            nuevoProductoxUsuario.setUsuario(usuarioRepository.findById(usuarioID).get());
+            nuevoProductoxUsuario.setProducto(productoRepository.findById(productoID).get());
+            nuevoProductoxUsuario.setFecha(fecha);
+            productoxUsuarioRepository.save(nuevoProductoxUsuario);
         }
     }
 }

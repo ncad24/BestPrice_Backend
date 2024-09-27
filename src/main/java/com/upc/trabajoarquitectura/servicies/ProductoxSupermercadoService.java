@@ -31,28 +31,24 @@ public class ProductoxSupermercadoService implements IProductoxSupermercadoServi
         return productoxSupermercadoRepository.findAll();
     }
     @Transactional
-    public void registrarProductoxSupermercado(Long productoID, Long supermercadoID, Long descuentoID, double precio) throws Exception{
-        try{
-            ProductoxSupermercado productoxSupermercado = productoxSupermercadoRepository.findByPrimaryKey_Producto_ProductoIDAndPrimaryKey_Supermercado_SupermercadoID(productoID, supermercadoID);
-            LocalDate fecha = LocalDate.now();
-            Descuento descuento = descuentoRepository.findById(descuentoID).orElse(null);  // Buscar el descuento
-            if (productoxSupermercado != null && descuento != null) {
-                productoxSupermercado.setFecha(fecha);
-                productoxSupermercado.setPrecio(precio);
-                productoxSupermercado.setDescuento(descuento);
-                productoxSupermercadoRepository.save(productoxSupermercado);
-            }else{
-                ProductoxSupermercado nuevoProductoxSupermercado = new ProductoxSupermercado();
-                nuevoProductoxSupermercado.setSupermercado(supermercadoRepository.findById(supermercadoID).get());
-                nuevoProductoxSupermercado.setProducto(productoRepository.findById(productoID).get());
-                nuevoProductoxSupermercado.setFecha(fecha);
-                nuevoProductoxSupermercado.setPrecio(precio);
-                nuevoProductoxSupermercado.setDescuento(descuento);
+    public void registrarProductoxSupermercado(Long productoID, Long supermercadoID, Long descuentoID, double precio) {
+        ProductoxSupermercado productoxSupermercado = productoxSupermercadoRepository.findByPrimaryKey_Producto_ProductoIDAndPrimaryKey_Supermercado_SupermercadoID(productoID, supermercadoID);
+        LocalDate fecha = LocalDate.now();
+        Descuento descuento = descuentoRepository.findById(descuentoID).orElse(null);  // Buscar el descuento
+        if (productoxSupermercado != null && descuento != null) {
+            productoxSupermercado.setFecha(fecha);
+            productoxSupermercado.setPrecio(precio);
+            productoxSupermercado.setDescuento(descuento);
+            productoxSupermercadoRepository.save(productoxSupermercado);
+        }else{
+            ProductoxSupermercado nuevoProductoxSupermercado = new ProductoxSupermercado();
+            nuevoProductoxSupermercado.setSupermercado(supermercadoRepository.findById(supermercadoID).get());
+            nuevoProductoxSupermercado.setProducto(productoRepository.findById(productoID).get());
+            nuevoProductoxSupermercado.setFecha(fecha);
+            nuevoProductoxSupermercado.setPrecio(precio);
+            nuevoProductoxSupermercado.setDescuento(descuento);
 
-                productoxSupermercadoRepository.save(nuevoProductoxSupermercado);
-            }
-        } catch (Exception e){
-            throw new Exception("Error al registrar el producto en el supermercado:" + e.getMessage());
+            productoxSupermercadoRepository.save(nuevoProductoxSupermercado);
         }
     }
 
