@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:4200","http://18.223.169.236/"})
 @RestController
 @RequestMapping("/api")
 public class SupermercadoController {
@@ -21,29 +22,21 @@ public class SupermercadoController {
 
     @GetMapping("/supermercados")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<List<SupermercadoDTO>> listarSupermercados(){
-        try{
-            ModelMapper mapper = new ModelMapper();
-            List<Supermercado> supermercado = supermercadoService.listarSupermercados();
-            List<SupermercadoDTO> supermercadoDTO = Arrays.asList(mapper.map(supermercado, SupermercadoDTO[].class));
-            return new ResponseEntity<>(supermercadoDTO, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public List<SupermercadoDTO> listarSupermercados(){
+        ModelMapper mapper = new ModelMapper();
+        List<Supermercado> supermercado = supermercadoService.listarSupermercados();
+        List<SupermercadoDTO> supermercadoDTO = Arrays.asList(mapper.map(supermercado, SupermercadoDTO[].class));
+        return supermercadoDTO;
     }
 
     @PostMapping("/supermercado")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<SupermercadoDTO> registrarSupermercado(@RequestBody SupermercadoDTO supermercadoDTO){
-        try{
-            ModelMapper mapper = new ModelMapper();
-            Supermercado supermercado = mapper.map(supermercadoDTO, Supermercado.class);
-            supermercado = supermercadoService.registrarSupermercado(supermercado);
-            supermercadoDTO = mapper.map(supermercado, SupermercadoDTO.class);
-            return new ResponseEntity<>(supermercadoDTO, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public SupermercadoDTO registrarSupermercado(@RequestBody SupermercadoDTO supermercadoDTO){
+        ModelMapper mapper = new ModelMapper();
+        Supermercado supermercado = mapper.map(supermercadoDTO, Supermercado.class);
+        supermercado = supermercadoService.registrarSupermercado(supermercado);
+        supermercadoDTO = mapper.map(supermercado, SupermercadoDTO.class);
+        return supermercadoDTO;
     }
 
     @PutMapping("/supermercado/actualizar")

@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:4200","http://18.223.169.236/"})
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
@@ -32,46 +33,38 @@ public class UsuarioController {
 
     @GetMapping("/usuarios")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<UsuarioDTO>> listarUsuarios(){
-        try{
-            ModelMapper mapper = new ModelMapper();
-            List<Usuario> usuarios = usuarioService.listarUsuarios();
-            List<UsuarioDTO> usuarioDTO = Arrays.asList(mapper.map(usuarios, UsuarioDTO[].class));
-            return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public List<UsuarioDTO> listarUsuarios(){
+        ModelMapper mapper = new ModelMapper();
+        List<Usuario> usuarios = usuarioService.listarUsuarios();
+        List<UsuarioDTO> usuarioDTO = Arrays.asList(mapper.map(usuarios, UsuarioDTO[].class));
+        return usuarioDTO;
     }
 
     @PostMapping("/usuario")
-    public ResponseEntity<UsuarioDTO> registrarUsuario(@ModelAttribute UsuarioDTO usuarioDTO,
+    public UsuarioDTO registrarUsuario(@ModelAttribute UsuarioDTO usuarioDTO,
                                        @RequestParam("imagen") MultipartFile imagen) throws IOException {
-        try{
-            ModelMapper mapper = new ModelMapper();
-            Usuario usuario = mapper.map(usuarioDTO, Usuario.class);
-            String bcryptPassword = bcrypt.encode(usuario.getContrasenia());
-            usuario.setContrasenia(bcryptPassword);
-            // Verificar si el archivo de imagen no está vacío
-            if (!imagen.isEmpty()) {
-                // Definir la ruta donde se va a guardar la imagen
-                String nombreArchivo = System.currentTimeMillis() + "_" + imagen.getOriginalFilename();
-                String rutaDirectorio = "C:/Arquitectura de Aplicaciones/trabajoarquitectura/src/main/java/com/upc/trabajoarquitectura/imagenes/usuario/";
-                String rutaCompleta = rutaDirectorio + nombreArchivo;
+        ModelMapper mapper = new ModelMapper();
+        Usuario usuario = mapper.map(usuarioDTO, Usuario.class);
+        String bcryptPassword = bcrypt.encode(usuario.getContrasenia());
+        usuario.setContrasenia(bcryptPassword);
+        // Verificar si el archivo de imagen no está vacío
+        if (!imagen.isEmpty()) {
+            // Definir la ruta donde se va a guardar la imagen
+            String nombreArchivo = System.currentTimeMillis() + "_" + imagen.getOriginalFilename();
+            String rutaDirectorio = "C:/Arquitectura de Aplicaciones/trabajoarquitectura/src/main/java/com/upc/trabajoarquitectura/imagenes/usuario/";
+            String rutaCompleta = rutaDirectorio + nombreArchivo;
 
-                // Guardar el archivo en el sistema de archivos
-                File archivo = new File(rutaCompleta);
-                imagen.transferTo(archivo);
+            // Guardar el archivo en el sistema de archivos
+            File archivo = new File(rutaCompleta);
+            imagen.transferTo(archivo);
 
-                // Asignar la ruta de la imagen al producto
-                usuario.setRutaImagen(rutaCompleta);
-            }
-
-            usuario = usuarioService.registrarUsuario(usuario);
-            usuarioDTO= mapper.map(usuario, UsuarioDTO.class);
-            return new ResponseEntity<>(usuarioDTO, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            // Asignar la ruta de la imagen al producto
+            usuario.setRutaImagen(rutaCompleta);
         }
+
+        usuario = usuarioService.registrarUsuario(usuario);
+        usuarioDTO= mapper.map(usuario, UsuarioDTO.class);
+        return usuarioDTO;
     }
 
     @PutMapping("/usuario/actualizar")

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:4200","http://18.223.169.236/"})
 @RestController
 @RequestMapping("/api")
 public class DescuentoController {
@@ -22,29 +23,21 @@ public class DescuentoController {
 
     @GetMapping("/descuentos")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<List<DescuentoDTO> >listarDescuentos(){
+    public List<DescuentoDTO> listarDescuentos(){
         ModelMapper modelMapper = new ModelMapper();
-        try{
-            List<Descuento> descuentos = descuentoService.listarDescuentos();
-            List<DescuentoDTO> descuentoDTOS = modelMapper.map(descuentos, List.class);
-            return new ResponseEntity<>(descuentoDTOS, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Descuento> descuentos = descuentoService.listarDescuentos();
+        List<DescuentoDTO> descuentoDTOS = modelMapper.map(descuentos, List.class);
+        return descuentoDTOS;
     }
 
     @PostMapping("/descuento")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<DescuentoDTO> registrarDescuento(@RequestBody DescuentoDTO descuentoDTO){
+    public DescuentoDTO registrarDescuento(@RequestBody DescuentoDTO descuentoDTO){
         ModelMapper mapper = new ModelMapper();
-        try{
-            Descuento descuento = mapper.map(descuentoDTO, Descuento.class);
-            descuento = descuentoService.registrarDescuento(descuento);
-            descuentoDTO = mapper.map(descuento, DescuentoDTO.class);
-            return new ResponseEntity<>(descuentoDTO, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Descuento descuento = mapper.map(descuentoDTO, Descuento.class);
+        descuento = descuentoService.registrarDescuento(descuento);
+        descuentoDTO = mapper.map(descuento, DescuentoDTO.class);
+        return descuentoDTO;
     }
 
     @PutMapping("/descuento/actualizar")

@@ -29,7 +29,7 @@ public class ProductoxSupermercado {
     @Column(name = "fecha")
     private LocalDate fecha;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "descuentoID")
     private Descuento descuento;
 

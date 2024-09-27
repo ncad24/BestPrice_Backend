@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IProductoxSupermercadoService {
     public List<ProductoxSupermercado> listarProductoxSupermercado ();
-    public void registrarProductoxSupermercado(Long productoID, Long supermercadoID, Long descuentoID, double precio) throws Exception;
+    public void registrarProductoxSupermercado(Long productoID, Long supermercadoID, Long descuentoID, double precio);
 
     public List<ProductoSupermercadoDTO> encontrarPrecioDeProductoPorSupermercado(Long idProduct);
     public List<PrecioProductosSupermercadoDTO> encontrarPrecioMenorDeProductos();

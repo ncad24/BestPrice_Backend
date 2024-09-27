@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:4200","http://18.223.169.236/"})
 @RestController
 @RequestMapping("/api")
 public class MarcaController {
@@ -21,29 +22,21 @@ public class MarcaController {
 
     @GetMapping("/marcas")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<List<MarcaDTO>> listarMarcas(){
+    public List<MarcaDTO> listarMarcas(){
         ModelMapper mapper = new ModelMapper();
-        try{
-            List<Marca> marcas = marcaService.listarMarca();
-            List<MarcaDTO> marcaDTO = Arrays.asList(mapper.map(marcas, MarcaDTO[].class));
-            return new ResponseEntity<>(marcaDTO, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        List<Marca> marcas = marcaService.listarMarca();
+        List<MarcaDTO> marcaDTO = Arrays.asList(mapper.map(marcas, MarcaDTO[].class));
+        return marcaDTO;
     }
 
     @PostMapping("/marca")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<MarcaDTO> registrarMarca(@RequestBody MarcaDTO marcaDTO){
+    public MarcaDTO registrarMarca(@RequestBody MarcaDTO marcaDTO){
         ModelMapper mapper = new ModelMapper();
-        try {
-            Marca marca = mapper.map(marcaDTO, Marca.class);
-            marca = marcaService.registrarMarca(marca);
-            marcaDTO = mapper.map(marca, MarcaDTO.class);
-            return new ResponseEntity<>(marcaDTO, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        Marca marca = mapper.map(marcaDTO, Marca.class);
+        marca = marcaService.registrarMarca(marca);
+        marcaDTO = mapper.map(marca, MarcaDTO.class);
+        return marcaDTO;
     }
 
     @PutMapping("/marca/actualizar")
