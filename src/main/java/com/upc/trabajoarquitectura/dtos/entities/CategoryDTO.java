@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.dtos;
+package com.upc.trabajoarquitectura.dtos.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ProductoSupermercadoDTO {
-    private String nombreSupermercado;
-    private double precioProducto;
+
+public class CategoryDTO {
+    private Long categoryId;
+    private String name;
+    private String description;
 }
