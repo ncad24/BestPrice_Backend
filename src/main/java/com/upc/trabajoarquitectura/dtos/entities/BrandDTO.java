@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.dtos;
+package com.upc.trabajoarquitectura.dtos.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 
-public class RolDTO {
-    private Long rolID;
-    private String nombreRol;
-    private String descripcion;
+public class BrandDTO {
+    private Long brandId;
+    private String name;
 }

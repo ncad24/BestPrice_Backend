@@ -11,11 +11,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Rol {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="rolID")
-    private Long rolID;
-    private String nombreRol;
-    private String descripcion;
+    @Column(name="brandID")
+    private Long brandId;
+    private String name;
 }
