@@ -1,4 +1,4 @@
-package com.upc.trabajoarquitectura.dtos;
+package com.upc.trabajoarquitectura.dtos.manageinfo;
 
 public class AuthResponseDTO {
     private final String jwt;
