@@ -1,5 +1,7 @@
-package com.upc.trabajoarquitectura.entities;
+package com.upc.trabajoarquitectura.util;
 
+import com.upc.trabajoarquitectura.entities.Product;
+import com.upc.trabajoarquitectura.entities.Supermarket;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToOne;
@@ -9,9 +11,9 @@ import lombok.Setter;
 @Embeddable
 @Getter
 @Setter
-public class ProductoxUsuarioID {
+public class ProductsBySupermarketID {
     @ManyToOne(cascade = CascadeType.ALL)
-    private Usuario usuario;
+    private Supermarket supermarket;
     @ManyToOne(cascade = CascadeType.ALL)
-    private Producto producto;
+    private Product product;
 }
